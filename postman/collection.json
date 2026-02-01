@@ -1,0 +1,319 @@
+﻿{
+  "info": {
+    "name": "Automation Exercise API",
+    "_postman_id": "automationexercise-collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "API-001 Products List (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{api_base_url}}/productsList"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('responseCode is 200', function () {",
+              "  pm.response.to.have.jsonBody('responseCode', 200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-002 Products List (POST not supported)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "{{api_base_url}}/productsList"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('responseCode is 405', function () {",
+              "  pm.response.to.have.jsonBody('responseCode', 405);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-003 Brands List (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{api_base_url}}/brandsList"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('responseCode is 200', function () {",
+              "  pm.response.to.have.jsonBody('responseCode', 200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-004 Brands List (PUT not supported)",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": "{{api_base_url}}/brandsList"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('responseCode is 405', function () {",
+              "  pm.response.to.have.jsonBody('responseCode', 405);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-005 Search Product (valid)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "search_product",
+              "value": "top",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "{{api_base_url}}/searchProduct"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('responseCode is 200', function () {",
+              "  pm.response.to.have.jsonBody('responseCode', 200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-006 Search Product (missing param)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": []
+        },
+        "url": "{{api_base_url}}/searchProduct"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('responseCode is 400', function () {",
+              "  pm.response.to.have.jsonBody('responseCode', 400);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-007 Verify Login (valid)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "{{user_email}}",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "{{user_password}}",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "{{api_base_url}}/verifyLogin"
+      }
+    },
+    {
+      "name": "API-008 Verify Login (missing param)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "missing@example.com",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "{{api_base_url}}/verifyLogin"
+      }
+    },
+    {
+      "name": "API-009 Verify Login (DELETE not supported)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{api_base_url}}/verifyLogin"
+      }
+    },
+    {
+      "name": "API-010 Verify Login (invalid)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "invalid_user@example.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "wrong",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "{{api_base_url}}/verifyLogin"
+      }
+    },
+    {
+      "name": "API-011 Create Account",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "const email = pm.variables.replaceIn('{{$randomEmail}}');",
+              "pm.environment.set('user_email', email);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('responseCode is 201', function () {",
+              "  pm.response.to.have.jsonBody('responseCode', 201);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {"key": "name", "value": "Codex User", "type": "text"},
+            {"key": "email", "value": "{{user_email}}", "type": "text"},
+            {"key": "password", "value": "{{user_password}}", "type": "text"},
+            {"key": "title", "value": "Mr", "type": "text"},
+            {"key": "birth_date", "value": "10", "type": "text"},
+            {"key": "birth_month", "value": "May", "type": "text"},
+            {"key": "birth_year", "value": "1990", "type": "text"},
+            {"key": "firstname", "value": "Codex", "type": "text"},
+            {"key": "lastname", "value": "User", "type": "text"},
+            {"key": "company", "value": "Codex Inc", "type": "text"},
+            {"key": "address1", "value": "123 Test St", "type": "text"},
+            {"key": "address2", "value": "Apt 1", "type": "text"},
+            {"key": "country", "value": "United States", "type": "text"},
+            {"key": "zipcode", "value": "10001", "type": "text"},
+            {"key": "state", "value": "NY", "type": "text"},
+            {"key": "city", "value": "New York", "type": "text"},
+            {"key": "mobile_number", "value": "1234567890", "type": "text"}
+          ]
+        },
+        "url": "{{api_base_url}}/createAccount"
+      }
+    },
+    {
+      "name": "API-013 Update Account",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {"key": "name", "value": "Codex User", "type": "text"},
+            {"key": "email", "value": "{{user_email}}", "type": "text"},
+            {"key": "password", "value": "{{user_password}}", "type": "text"},
+            {"key": "title", "value": "Mr", "type": "text"},
+            {"key": "birth_date", "value": "10", "type": "text"},
+            {"key": "birth_month", "value": "May", "type": "text"},
+            {"key": "birth_year", "value": "1990", "type": "text"},
+            {"key": "firstname", "value": "Codex", "type": "text"},
+            {"key": "lastname", "value": "User", "type": "text"},
+            {"key": "company", "value": "Codex Inc", "type": "text"},
+            {"key": "address1", "value": "123 Test St", "type": "text"},
+            {"key": "address2", "value": "Apt 1", "type": "text"},
+            {"key": "country", "value": "United States", "type": "text"},
+            {"key": "zipcode", "value": "10001", "type": "text"},
+            {"key": "state", "value": "CA", "type": "text"},
+            {"key": "city", "value": "San Francisco", "type": "text"},
+            {"key": "mobile_number", "value": "1234567890", "type": "text"}
+          ]
+        },
+        "url": "{{api_base_url}}/updateAccount"
+      }
+    },
+    {
+      "name": "API-014 Get User Detail By Email",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{api_base_url}}/getUserDetailByEmail?email={{user_email}}"
+      }
+    },
+    {
+      "name": "API-012 Delete Account",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {"key": "email", "value": "{{user_email}}", "type": "text"},
+            {"key": "password", "value": "{{user_password}}", "type": "text"}
+          ]
+        },
+        "url": "{{api_base_url}}/deleteAccount"
+      }
+    }
+  ]
+}

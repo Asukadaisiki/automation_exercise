@@ -1,0 +1,7 @@
+﻿{
+  "base_url": "https://automationexercise.com",
+  "api_base_url": "https://automationexercise.com/api",
+  "ui_base_url": "https://automationexercise.com",
+  "timeout_seconds": 20,
+  "headless": true
+}
