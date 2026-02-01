@@ -16,6 +16,11 @@ pytest -m api
 
 更详细的操作步骤与学习路径请查看：`docs/learning_guide.md`。
 
+## 如何运行 GitHub Actions
+
+- 自动触发：`push` 或 `pull_request` 会自动执行 API 测试。
+- 手动触发 UI：仓库 `Actions` → 选择 `CI` → `Run workflow` → 勾选 `run_ui = true`。
+
 ## 目录结构
 
 ```
