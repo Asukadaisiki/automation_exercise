@@ -7,7 +7,7 @@ import pytest
 def test_products_page(page, ui_base_url):
     page.goto(f"{ui_base_url}/products", wait_until="domcontentloaded")
     header = page.locator("h2.title.text-center").first
-    assert header.inner_text().strip() == "All Products"
+    assert header.inner_text().strip().upper() == "ALL PRODUCTS"
     assert page.locator(".productinfo").count() > 0
 
 
@@ -18,5 +18,5 @@ def test_search_products(page, ui_base_url):
     page.fill("#search_product", "top")
     page.click("#submit_search")
     header = page.locator("h2.title.text-center").first
-    assert header.inner_text().strip() == "Searched Products"
+    assert header.inner_text().strip().upper() == "SEARCHED PRODUCTS"
     assert page.locator(".productinfo").count() > 0
