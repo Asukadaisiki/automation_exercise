@@ -1,4 +1,6 @@
-﻿# Automation Exercise 自动化测试实战
+# Automation Exercise 自动化测试实战
+
+[![CI](https://github.com/Asukadaisiki/automation_exercise/actions/workflows/ci.yml/badge.svg)](https://github.com/Asukadaisiki/automation_exercise/actions/workflows/ci.yml)
 
 本项目基于 Automation Exercise 官方 API/UI 场景，构建接口自动化为主、UI 冒烟为辅的测试工程示例。
 
