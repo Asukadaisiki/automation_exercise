@@ -1,4 +1,4 @@
-﻿name: CI
+name: CI
 
 on:
   push:
@@ -9,6 +9,15 @@ on:
         description: 'Run UI smoke tests'
         type: boolean
         default: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
   api-tests:
@@ -46,6 +55,19 @@ jobs:
         with:
           name: allure-report
           path: allure-report
+
+      - name: Upload Pages artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: allure-report
+  deploy-pages:
+    if: always()
+    needs: api-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
 
   ui-tests:
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_ui == 'true' }}
